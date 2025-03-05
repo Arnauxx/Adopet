@@ -7,10 +7,12 @@ using Alura.Adopet.Console.Modelos;
 
 namespace Alura.Adopet.Console.Util
 {
-    internal class LeitorDeArquivo
+    public class LeitorDeArquivo
     {
         public List<Pet> RealizaLeituraDoArquivo(string caminhoDoArquivoASerLido)
         {
+            if (!String.IsNullOrEmpty(caminhoDoArquivoASerLido))
+            {
             List<Pet> listaDePet = new List<Pet>();
             using (StreamReader sr = new StreamReader(caminhoDoArquivoASerLido))
                 while (!sr.EndOfStream)
@@ -24,7 +26,13 @@ namespace Alura.Adopet.Console.Util
                      );
                     listaDePet.Add(pet);
                 }
-            return listaDePet;
+                return listaDePet;
+
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }
