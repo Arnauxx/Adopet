@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Alura.Adopet.Console.Servicos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,11 +9,12 @@ namespace Alura.Adopet.Console.Comandos
 {
     internal class ComandosDoSistema
     {
+        private static HttpClientPet clientPet = new HttpClientPet(new AdopetAPIClientFactory().CreateClient("adopet"));
         private Dictionary<string, IComando> comandosDoSistema = new()
         {
             {"help", new Help()},
-            {"import", new Import()},
-            {"list", new List()},
+            {"import", new Import(clientPet)},
+            {"list", new List(clientPet)},
             {"show", new Show()},
         };
 

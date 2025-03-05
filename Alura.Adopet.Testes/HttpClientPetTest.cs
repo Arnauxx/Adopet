@@ -8,7 +8,8 @@ namespace Alura.Adopet.Testes
         public async Task ListaPetsDeveRetornarUmaListaNaoVazia()
         {
             //Arrange
-            var clientePet = new HttpClientPet();
+            var httpClient = new HttpClient();
+            var clientePet = new HttpClientPet(httpClient);
 
             //Act
             var lista = await clientePet.ListPetsAsync();
@@ -23,7 +24,8 @@ namespace Alura.Adopet.Testes
         public async Task QuandoAPIForaDeveRetornarUmaExcecao()
         {
             //Arrange
-            var clientePet = new HttpClientPet(uri: "http://localhost:1111");
+            var httpClient = new HttpClient();
+            var clientePet = new HttpClientPet(httpClient);
 
             //Act+Assert
             await Assert.ThrowsAnyAsync<Exception>(() => clientePet.ListPetsAsync());
