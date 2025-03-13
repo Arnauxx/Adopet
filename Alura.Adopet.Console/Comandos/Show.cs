@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Alura.Adopet.Console.Modelos;
 using Alura.Adopet.Console.Servicos;
 using Alura.Adopet.Console.Util;
+using FluentResults;
 
 namespace Alura.Adopet.Console.Comandos
 {
@@ -19,10 +20,10 @@ namespace Alura.Adopet.Console.Comandos
         {
             this.leitorDeArquivo = leitorDeArquivo;
         }
-        public Task ExecutarAsync(string[] args)
+        public Task<Result> ExecutarAsync(string[] args)
         {
             this.ExibeConteudoDoArquivo();
-            return Task.CompletedTask;
+            return Task.FromResult(Result.Ok());
         }
 
         private void ExibeConteudoDoArquivo()

@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Alura.Adopet.Console.Modelos;
 using Alura.Adopet.Console.Servicos;
+using FluentResults;
 
 namespace Alura.Adopet.Console.Comandos
 {
@@ -22,12 +23,12 @@ namespace Alura.Adopet.Console.Comandos
             this.clientPet = clientPet;
         }
 
-        public async Task ExecutarAsync(string[] args)
+        public async Task<Result> ExecutarAsync(string[] args)
         {
-            await this.MostrarListaDePetsCadastradasAsync();
+           return await this.MostrarListaDePetsCadastradasAsync();
         }
 
-        public async Task MostrarListaDePetsCadastradasAsync()
+        public async Task<Result> MostrarListaDePetsCadastradasAsync()
         {
             IEnumerable<Pet>? pets = await clientPet.ListPetsAsync();
             System.Console.WriteLine("----- Lista de Pets importados no sistema -----");
@@ -35,6 +36,7 @@ namespace Alura.Adopet.Console.Comandos
             {
                 System.Console.WriteLine(pet);
             }
+            return Result.Ok();
         }
     }
 }
