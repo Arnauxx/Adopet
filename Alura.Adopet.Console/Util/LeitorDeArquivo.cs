@@ -9,7 +9,13 @@ namespace Alura.Adopet.Console.Util
 {
     public class LeitorDeArquivo
     {
-        public List<Pet> RealizaLeituraDoArquivo(string caminhoDoArquivoASerLido)
+        private string caminhoDoArquivoASerLido;
+        public LeitorDeArquivo(string caminhoDoArquivoASerLido)
+        {
+            this.caminhoDoArquivoASerLido = caminhoDoArquivoASerLido;
+        }
+
+        public virtual List<Pet> RealizaLeituraDoArquivo()
         {
             if (!String.IsNullOrEmpty(caminhoDoArquivoASerLido))
             {

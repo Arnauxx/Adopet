@@ -24,7 +24,7 @@ namespace Alura.Adopet.Testes
         {
             //Arrange            
             //Act
-            var listaDePets = new LeitorDeArquivo().RealizaLeituraDoArquivo(caminhoArquivo)!;
+            var listaDePets = new LeitorDeArquivo(caminhoArquivo).RealizaLeituraDoArquivo()!;
             //Assert
             Assert.NotNull(listaDePets);
             Assert.Single(listaDePets);
@@ -35,7 +35,7 @@ namespace Alura.Adopet.Testes
         {
             //Arrange
             //Act
-            var listaDePets = new LeitorDeArquivo().RealizaLeituraDoArquivo(string.Empty);
+            var listaDePets = new LeitorDeArquivo(string.Empty).RealizaLeituraDoArquivo();
 
             //Assert
             Assert.Null(listaDePets);
@@ -46,7 +46,7 @@ namespace Alura.Adopet.Testes
         {
             //Arrange
             //Act
-            var listaDePets = new LeitorDeArquivo().RealizaLeituraDoArquivo(null);
+            var listaDePets = new LeitorDeArquivo(null).RealizaLeituraDoArquivo();
 
             //Assert
             Assert.Null(listaDePets);

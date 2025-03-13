@@ -23,9 +23,9 @@ namespace Alura.Adopet.Console.Comandos
             using (StreamReader sr = new StreamReader(caminhoDoArquivoASerExibido))
             {
                 List<Pet> listaDePet = new List<Pet>();
-                LeitorDeArquivo leitorDeArquivo = new LeitorDeArquivo();
+                LeitorDeArquivo leitorDeArquivo = new LeitorDeArquivo(caminhoDoArquivoASerExibido);
                 System.Console.WriteLine("----- Serão importados os dados abaixo -----");
-                listaDePet = leitorDeArquivo.RealizaLeituraDoArquivo(caminhoDoArquivoASerExibido);
+                listaDePet = leitorDeArquivo.RealizaLeituraDoArquivo();
                 foreach (Pet pet in listaDePet)
                 {
                     System.Console.WriteLine(pet.ToString());

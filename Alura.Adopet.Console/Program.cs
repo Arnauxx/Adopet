@@ -1,15 +1,30 @@
 ﻿using Alura.Adopet.Console.Comandos;
 using Alura.Adopet.Console.Servicos;
+using Alura.Adopet.Console.Util;
 
-ComandosDoSistema comandos = new();
+var httpClientPet = new HttpClientPet(new AdopetAPIClientFactory().CreateClient("adopet"));
+var leitorDeArquivos = new LeitorDeArquivo(caminhoDoArquivoASerLido: args[1]);
+Dictionary<string, IComando> comandosDoSistema = new()
+{
+    {"help",new Help() },
+    {"import",new Import(httpClientPet, leitorDeArquivos)},
+    {"list",new List(httpClientPet) },
+    {"show",new Show() },
+};
 
 Console.ForegroundColor = ConsoleColor.Green;
 try
 {
     string comando = args[0].Trim();
-    IComando? comandoASerExecutado = comandos[comando];
-    if (comandoASerExecutado is not null) await comandoASerExecutado.ExecutarAsync(args);
-    else Console.WriteLine("Comando inválido!");
+    if (comandosDoSistema.ContainsKey(comando))
+    {
+        IComando? cmd = comandosDoSistema[comando];
+        await cmd.ExecutarAsync(args);
+    }
+    else
+    {
+        Console.WriteLine("Comando inválido!");
+    }
 }
 catch (Exception ex)
 {
