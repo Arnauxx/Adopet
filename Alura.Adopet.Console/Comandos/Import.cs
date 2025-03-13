@@ -20,10 +20,10 @@ namespace Alura.Adopet.Console.Comandos
 
         public async Task ExecutarAsync(string[] args)
         {
-            await this.ImportacaoArquivoPetAsync(caminhodoArquivoDeImportacao: args[1]);
+            await this.ImportacaoArquivoPetAsync();
         }
 
-        private async Task ImportacaoArquivoPetAsync(string caminhodoArquivoDeImportacao)
+        private async Task ImportacaoArquivoPetAsync()
         {
             List<Pet> listaDePet = leitorDeArquivo.RealizaLeituraDoArquivo();
             foreach (var pet in listaDePet)

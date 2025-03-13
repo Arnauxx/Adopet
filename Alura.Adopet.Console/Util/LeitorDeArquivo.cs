@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 using Alura.Adopet.Console.Modelos;
@@ -17,26 +18,34 @@ namespace Alura.Adopet.Console.Util
 
         public virtual List<Pet> RealizaLeituraDoArquivo()
         {
-            if (!String.IsNullOrEmpty(caminhoDoArquivoASerLido))
+            try
             {
-            List<Pet> listaDePet = new List<Pet>();
-            using (StreamReader sr = new StreamReader(caminhoDoArquivoASerLido))
-                while (!sr.EndOfStream)
+                if (!String.IsNullOrEmpty(caminhoDoArquivoASerLido))
                 {
-                    // separa linha usando ponto e vírgula
-                    string[] propriedades = sr.ReadLine().Split(';');
-                    // cria objeto Pet a partir da separação
-                    Pet pet = new Pet(Guid.Parse(propriedades[0]),
-                      propriedades[1],
-                      int.Parse(propriedades[2]) == 1 ? TipoPet.Gato : TipoPet.Cachorro
-                     );
-                    listaDePet.Add(pet);
-                }
-                return listaDePet;
+                    List<Pet> listaDePet = new List<Pet>();
+                    using (StreamReader sr = new StreamReader(caminhoDoArquivoASerLido))
+                        while (!sr.EndOfStream)
+                        {
+                            // separa linha usando ponto e vírgula
+                            string[] propriedades = sr.ReadLine().Split(';');
+                            // cria objeto Pet a partir da separação
+                            Pet pet = new Pet(Guid.Parse(propriedades[0]),
+                              propriedades[1],
+                              int.Parse(propriedades[2]) == 1 ? TipoPet.Gato : TipoPet.Cachorro
+                             );
+                            listaDePet.Add(pet);
+                        }
+                    return listaDePet;
 
+                }
+                else
+                {
+                    return null;
+                }
             }
-            else
+            catch (Exception ex)
             {
+                System.Console.WriteLine(ex.Message);
                 return null;
             }
         }
