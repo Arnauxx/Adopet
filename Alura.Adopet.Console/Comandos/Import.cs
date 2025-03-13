@@ -7,7 +7,7 @@ namespace Alura.Adopet.Console.Comandos
 {
     [DocComando(instrucao: "import",
         documentacao: "adopet import <ARQUIVO> comando que realiza a importação do arquivo de pets.")]
-    public class Import:IComando
+    public class Import : IComando
     {
 
         private readonly HttpClientPet clientPet;
@@ -26,21 +26,22 @@ namespace Alura.Adopet.Console.Comandos
 
         private async Task<Result> ImportacaoArquivoPetAsync()
         {
-            List<Pet> listaDePet = leitorDeArquivo.RealizaLeituraDoArquivo();
-            foreach (var pet in listaDePet)
+            try
             {
-                System.Console.WriteLine(pet);
-                try
+                List<Pet> listaDePet = leitorDeArquivo.RealizaLeituraDoArquivo();
+                foreach (var pet in listaDePet)
                 {
+                    System.Console.WriteLine(pet);
                     await clientPet.CreatePetAsync(pet);
+
                 }
-                catch (Exception ex)
-                {
-                    System.Console.WriteLine(ex.Message);
-                }
+                System.Console.WriteLine("Importação concluída!");
+                return Result.Ok().WithSuccess(new SuccessWithPets(listaDePet));
             }
-            System.Console.WriteLine("Importação concluída!");
-            return Result.Ok().WithSuccess(new SuccessWithPets(listaDePet));
+            catch (Exception ex)
+            {
+                return Result.Fail(new Error("Importação falhou!").CausedBy(ex));
+            }
         }
     }
 }

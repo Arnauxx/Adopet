@@ -32,7 +32,7 @@ namespace Alura.Adopet.Testes
         }
 
         [Fact]
-        public async void QuandoArquivoDeImportacaoNaoExistirDeveGerarException()
+        public async void QuandoArquivoNaoExistirDeveGerarFalha()
         {
             //Arrange
             List<Pet> listaDePets = new List<Pet>();
@@ -42,8 +42,11 @@ namespace Alura.Adopet.Testes
             string[] args = { "import", "lista.csv" };
             var import = new Import(httpClientPet.Object, leitorDeArquivo.Object);
 
-            //Act + Assert
-            await Assert.ThrowsAnyAsync<Exception>(() => import.ExecutarAsync(args));
+            //Act
+            var resultado = await import.ExecutarAsync(args);
+
+            //Assert
+            Assert.True(resultado.IsFailed);
         }
 
         [Fact]
@@ -51,8 +54,7 @@ namespace Alura.Adopet.Testes
         {
             //Arrange
             List<Pet> listaDePets = new List<Pet>();
-            var pet = new Pet(new Guid("456b24f4-19e2-4423-845d-4a80e8854a99"),
-                            "Lima", TipoPet.Cachorro);
+            var pet = new Pet(new Guid("456b24f4-19e2-4423-845d-4a80e8854a99"), "Lima", TipoPet.Cachorro);
             listaDePets.Add(pet);
             var leitorDeArquivo = LeitorDeArquivosMockBuilder.GetMock(listaDePets);
             var httpClientPet = HttpClientPetMockBuilder.GetMock();

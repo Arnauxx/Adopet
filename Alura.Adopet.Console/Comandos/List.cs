@@ -13,7 +13,7 @@ namespace Alura.Adopet.Console.Comandos
 {
     [DocComando(instrucao: "list",
         documentacao: "adopet list comando que exibe no terminal o conteúdo cadastrado na base de dados da AdoPet")]
-    internal class List:IComando
+    internal class List : IComando
     {
 
         private readonly HttpClientPet clientPet;
@@ -25,18 +25,31 @@ namespace Alura.Adopet.Console.Comandos
 
         public async Task<Result> ExecutarAsync(string[] args)
         {
-           return await this.MostrarListaDePetsCadastradasAsync();
+            try
+            {
+                return await this.MostrarListaDePetsCadastradasAsync();
+            }
+            catch (Exception ex)
+            {
+                return Result.Fail(new Error("Erro ao exibir lista!").CausedBy(ex));
+            }
         }
-
         public async Task<Result> MostrarListaDePetsCadastradasAsync()
         {
-            IEnumerable<Pet>? pets = await clientPet.ListPetsAsync();
-            System.Console.WriteLine("----- Lista de Pets importados no sistema -----");
-            foreach (var pet in pets)
+            try
             {
-                System.Console.WriteLine(pet);
+                IEnumerable<Pet>? pets = await clientPet.ListPetsAsync();
+                System.Console.WriteLine("----- Lista de Pets importados no sistema -----");
+                foreach (var pet in pets)
+                {
+                    System.Console.WriteLine(pet);
+                }
+                return Result.Ok();
             }
-            return Result.Ok();
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }
