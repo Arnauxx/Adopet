@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Alura.Adopet.Console.Modelos;
 using Alura.Adopet.Console.Servicos;
+using Alura.Adopet.Console.Util;
 using FluentResults;
 
 namespace Alura.Adopet.Console.Comandos
@@ -17,6 +18,7 @@ namespace Alura.Adopet.Console.Comandos
     {
 
         private readonly HttpClientPet clientPet;
+        private IEnumerable<Pet>? pets;
 
         public List(HttpClientPet clientPet)
         {
@@ -38,17 +40,12 @@ namespace Alura.Adopet.Console.Comandos
         {
             try
             {
-                IEnumerable<Pet>? pets = await clientPet.ListPetsAsync();
-                System.Console.WriteLine("----- Lista de Pets importados no sistema -----");
-                foreach (var pet in pets)
-                {
-                    System.Console.WriteLine(pet);
-                }
-                return Result.Ok();
+                pets = await clientPet.ListPetsAsync();
+                return Result.Ok().WithSuccess(new SuccessWithPets(pets, "Lista de pets consultada com sucesso!"));
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                return Result.Fail(new Error("Importação falhou!").CausedBy(ex));
             }
         }
     }

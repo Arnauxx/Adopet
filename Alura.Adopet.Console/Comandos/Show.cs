@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Alura.Adopet.Console.Modelos;
-using Alura.Adopet.Console.Servicos;
+﻿using Alura.Adopet.Console.Modelos;
 using Alura.Adopet.Console.Util;
 using FluentResults;
 
@@ -15,6 +9,7 @@ namespace Alura.Adopet.Console.Comandos
     public class Show : IComando
     {
         private readonly LeitorDeArquivo leitorDeArquivo;
+        private List<Pet> listaDePet;
 
         public Show(LeitorDeArquivo leitorDeArquivo)
         {
@@ -25,11 +20,18 @@ namespace Alura.Adopet.Console.Comandos
             try
             {
                 this.ExibeConteudoDoArquivo();
-                return Task.FromResult(Result.Ok());
+                if (listaDePet.Count > 0)
+                {
+                    return Task.FromResult(Result.Ok().WithSuccess(new SuccessWithPets(listaDePet, "Conteudo do arquivo exibido com sucesso!")));
+                }
+                else
+                {
+                    throw new Exception("Não existe registros no arquivo informado!");
+                }
             }
             catch (Exception ex)
             {
-               return Task.FromResult(Result.Fail(new Error("Erro exibir o conteúdo do arquivo").CausedBy(ex.Message)));
+                return Task.FromResult(Result.Fail(new Error("Erro exibir o conteúdo do arquivo").CausedBy(ex.Message)));
             }
         }
 
@@ -37,12 +39,13 @@ namespace Alura.Adopet.Console.Comandos
         {
             try
             {
-                System.Console.WriteLine("----- Serão importados os dados abaixo -----");
-                var listaDePet = leitorDeArquivo.RealizaLeituraDoArquivo();
-                foreach (Pet pet in listaDePet)
-                {
-                    System.Console.WriteLine(pet.ToString());
-                }
+                listaDePet = leitorDeArquivo.RealizaLeituraDoArquivo();
+                //foreach (Pet pet in listaDePet)
+                //{
+                //    //Result.Ok().WithSuccess(new SuccessWithPets(listaDePet, pet.ToString()));
+                //    //System.Console.WriteLine(pet.ToString());
+                //}
+                //Result.Ok().WithSuccess(new SuccessWithPets(listaDePet, "Importação realizada com sucesso!"));
             }
             catch (Exception ex)
             {

@@ -5,6 +5,8 @@ using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 using Alura.Adopet.Console.Modelos;
+using Alura.Adopet.Console.UI;
+using FluentResults;
 
 namespace Alura.Adopet.Console.Util
 {
@@ -45,7 +47,7 @@ namespace Alura.Adopet.Console.Util
             }
             catch (Exception ex)
             {
-                System.Console.WriteLine(ex.Message);
+                ConsoleUI.ExibeResultado(Result.Fail(ex.Message));
                 return null;
             }
         }
