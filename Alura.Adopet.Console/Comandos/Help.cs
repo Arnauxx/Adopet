@@ -20,28 +20,27 @@ namespace Alura.Adopet.Console.Comandos
         {
             try
             {
-                this.ListarComandos(parametros: args);
-                return Task.FromResult(Result.Ok());
+                return Task.FromResult(Result.Ok()
+                    .WithSuccess(new SuccessWithDocs(this.GerarDocumentacao(parametros: args))));
             }
             catch(Exception ex)
             {
-                return Task.FromResult(Result.Fail(new Error("Erro ao exibir informações de ajuda!").CausedBy(ex.Message)));
+                return Task.FromResult(Result.Fail(new Error("Exibição de documentação falhou!").CausedBy(ex.Message)));
             }
         }
 
-        public void ListarComandos(string[] parametros)
+        public IEnumerable<string> GerarDocumentacao(string[] parametros)
         {
+            List<string> resultado = new List<string>();
             try
             {
                 // se não passou mais nenhum argumento mostra help de todos os comandos
                 if (parametros.Length == 1)
                 {
-                    System.Console.WriteLine("Adopet (1.0) - Aplicativo de linha de comando (CLI).");
-                    System.Console.WriteLine("Realiza a importação em lote de um arquivos de pets.");
-                    System.Console.WriteLine("Comando possíveis: ");
+
                     foreach (var doc in docs.Values)
                     {
-                        System.Console.WriteLine(doc.Documentacao);
+                        resultado.Add(doc.Documentacao);
                     }
                 }
                 // exibe o help daquele comando específico
@@ -51,9 +50,18 @@ namespace Alura.Adopet.Console.Comandos
                     if (docs.ContainsKey(comandoASerExibido))
                     {
                         var comando = docs[comandoASerExibido];
-                        System.Console.WriteLine(comando.Documentacao);
+                       resultado.Add(comando.Documentacao);
+                    }
+                    else
+                    {
+                        resultado.Add($"Comando não encontrado: '{comandoASerExibido}'!");
                     }
                 }
+                else
+                {
+                    resultado.Add($"Quantidade de parametros inválida!");
+                }
+                return resultado;
             }
             catch(Exception ex)
             {
