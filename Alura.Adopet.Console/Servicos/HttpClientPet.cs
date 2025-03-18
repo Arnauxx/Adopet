@@ -1,12 +1,5 @@
 ﻿using Alura.Adopet.Console.Modelos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.WebRequestMethods;
 
 namespace Alura.Adopet.Console.Servicos
 {
@@ -24,7 +17,7 @@ namespace Alura.Adopet.Console.Servicos
                 return client.PostAsJsonAsync("pet/add", pet);
         }
 
-        public async Task<IEnumerable<Pet>?> ListPetsAsync()
+        public virtual async Task<IEnumerable<Pet>?> ListPetsAsync()
         {
             HttpResponseMessage response = await client.GetAsync("pet/list");
             return await response.Content.ReadFromJsonAsync<IEnumerable<Pet>>();

@@ -7,21 +7,23 @@ namespace Alura.Adopet.Console.Comandos
     [DocComando(instrucao: "help",
     documentacao: "adopet help comando que exibe informações de ajuda. \n" +
         "adopet help <NOME_COMANDO> para acessar a ajuda de um comando específico.")]
-    internal class Help : IComando
+    public class Help : IComando
     {
         private Dictionary<string, DocComando> docs;
+        private string? comando;
 
-        public Help()
+        public Help(string? comando)
         {
             docs = DocumentacaoDoSistema.ToDictionary(Assembly.GetExecutingAssembly());
+            this.comando = comando;
         }
 
-        public Task<Result> ExecutarAsync(string[] args)
+        public Task<Result> ExecutarAsync()
         {
             try
             {
                 return Task.FromResult(Result.Ok()
-                    .WithSuccess(new SuccessWithDocs(this.GerarDocumentacao(parametros: args))));
+                    .WithSuccess(new SuccessWithDocs(this.GerarDocumentacao())));
             }
             catch(Exception ex)
             {
@@ -29,13 +31,13 @@ namespace Alura.Adopet.Console.Comandos
             }
         }
 
-        public IEnumerable<string> GerarDocumentacao(string[] parametros)
+        public IEnumerable<string> GerarDocumentacao()
         {
             List<string> resultado = new List<string>();
             try
             {
                 // se não passou mais nenhum argumento mostra help de todos os comandos
-                if (parametros.Length == 1)
+                if (this.comando is null)
                 {
 
                     foreach (var doc in docs.Values)
@@ -44,22 +46,18 @@ namespace Alura.Adopet.Console.Comandos
                     }
                 }
                 // exibe o help daquele comando específico
-                else if (parametros.Length == 2)
+                else
                 {
-                    string comandoASerExibido = parametros[1];
-                    if (docs.ContainsKey(comandoASerExibido))
+                    if (docs.ContainsKey(this.comando))
                     {
-                        var comando = docs[comandoASerExibido];
+                        var comando = docs[this.comando];
                        resultado.Add(comando.Documentacao);
                     }
                     else
                     {
-                        resultado.Add($"Comando não encontrado: '{comandoASerExibido}'!");
+                        resultado.Add($"Comando não encontrado: '{this.comando}'!");
+                        throw new ArgumentException(resultado[0]);
                     }
-                }
-                else
-                {
-                    resultado.Add($"Quantidade de parametros inválida!");
                 }
                 return resultado;
             }

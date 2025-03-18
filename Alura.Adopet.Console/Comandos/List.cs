@@ -14,18 +14,17 @@ namespace Alura.Adopet.Console.Comandos
 {
     [DocComando(instrucao: "list",
         documentacao: "adopet list comando que exibe no terminal o conteúdo cadastrado na base de dados da AdoPet")]
-    internal class List : IComando
+    public class List : IComando
     {
 
         private readonly HttpClientPet clientPet;
-        private IEnumerable<Pet>? pets;
 
         public List(HttpClientPet clientPet)
         {
             this.clientPet = clientPet;
         }
 
-        public async Task<Result> ExecutarAsync(string[] args)
+        public async Task<Result> ExecutarAsync()
         {
             try
             {
@@ -40,8 +39,15 @@ namespace Alura.Adopet.Console.Comandos
         {
             try
             {
-                pets = await clientPet.ListPetsAsync();
-                return Result.Ok().WithSuccess(new SuccessWithPets(pets, "Lista de pets consultada com sucesso!"));
+                IEnumerable<Pet>? pets = await clientPet.ListPetsAsync();
+                if (pets is not null)
+                {
+                    return Result.Ok().WithSuccess(new SuccessWithPets(pets, "Lista de pets consultada com sucesso!"));
+                }
+                else
+                {
+                    throw new Exception("Erro ao obter lista de pets");
+                }
             }
             catch (Exception ex)
             {

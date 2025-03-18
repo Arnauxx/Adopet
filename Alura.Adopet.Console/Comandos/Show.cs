@@ -9,25 +9,16 @@ namespace Alura.Adopet.Console.Comandos
     public class Show : IComando
     {
         private readonly LeitorDeArquivo leitorDeArquivo;
-        private List<Pet> listaDePet;
 
         public Show(LeitorDeArquivo leitorDeArquivo)
         {
             this.leitorDeArquivo = leitorDeArquivo;
         }
-        public Task<Result> ExecutarAsync(string[] args)
+        public Task<Result> ExecutarAsync()
         {
             try
             {
-                this.ExibeConteudoDoArquivo();
-                if (listaDePet.Count > 0)
-                {
-                    return Task.FromResult(Result.Ok().WithSuccess(new SuccessWithPets(listaDePet, "Conteudo do arquivo exibido com sucesso!")));
-                }
-                else
-                {
-                    throw new Exception("Não existe registros no arquivo informado!");
-                }
+                return this.ExibeConteudoDoArquivo();
             }
             catch (Exception ex)
             {
@@ -35,17 +26,13 @@ namespace Alura.Adopet.Console.Comandos
             }
         }
 
-        private void ExibeConteudoDoArquivo()
+        private Task<Result> ExibeConteudoDoArquivo()
         {
             try
             {
-                listaDePet = leitorDeArquivo.RealizaLeituraDoArquivo();
-                //foreach (Pet pet in listaDePet)
-                //{
-                //    //Result.Ok().WithSuccess(new SuccessWithPets(listaDePet, pet.ToString()));
-                //    //System.Console.WriteLine(pet.ToString());
-                //}
-                //Result.Ok().WithSuccess(new SuccessWithPets(listaDePet, "Importação realizada com sucesso!"));
+               var listaDePet = leitorDeArquivo.RealizaLeituraDoArquivo();
+               return Task.FromResult(Result.Ok().WithSuccess(new SuccessWithPets(listaDePet, "Conteudo do arquivo exibido com sucesso!")));
+
             }
             catch (Exception ex)
             {
