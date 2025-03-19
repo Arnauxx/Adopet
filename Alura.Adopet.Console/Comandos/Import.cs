@@ -1,5 +1,5 @@
-﻿using Alura.Adopet.Console.Modelos;
-using Alura.Adopet.Console.Servicos;
+﻿using Alura.Adopet.Console.Servicos;
+using Alura.Adopet.Console.Servicos.Abstracoes;
 using Alura.Adopet.Console.Util;
 using FluentResults;
 
@@ -11,9 +11,9 @@ namespace Alura.Adopet.Console.Comandos
     {
 
         private readonly HttpClientPet clientPet;
-        private readonly LeitorDeArquivo leitorDeArquivo;
+        private readonly ILeitorDeArquivos leitorDeArquivo;
 
-        public Import(HttpClientPet clientPet, LeitorDeArquivo leitorDeArquivo)
+        public Import(HttpClientPet clientPet, ILeitorDeArquivos leitorDeArquivo)
         {
             this.clientPet = clientPet;
             this.leitorDeArquivo = leitorDeArquivo;
@@ -28,7 +28,7 @@ namespace Alura.Adopet.Console.Comandos
         {
             try
             {
-                List<Pet> listaDePet = leitorDeArquivo.RealizaLeituraDoArquivo();
+                var listaDePet = leitorDeArquivo.RealizaLeituraDoArquivo();
                 foreach (var pet in listaDePet)
                 {
                     await clientPet.CreatePetAsync(pet);

@@ -1,9 +1,9 @@
 ﻿using Alura.Adopet.Console.Servicos;
-using Alura.Adopet.Console.Util;
+using Alura.Adopet.Console.Servicos.Arquivos;
 
 namespace Alura.Adopet.Console.Comandos
 {
-    public static class FabricaDeComandos
+    public static class ComandosFactory
     {
         public static IComando CriarComando(string[] argumentos)
         {
@@ -13,13 +13,15 @@ namespace Alura.Adopet.Console.Comandos
             {
                 case "import":
                     var httpClientPet = new HttpClientPet(new AdopetAPIClientFactory().CreateClient("adopet"));
-                    LeitorDeArquivo leitorDeArquivos = argumentos.Length == 2 ? new(argumentos[1]) : null;
+                    var leitorDeArquivos = LeitorDeArquivosFactory.CreatePetFrom(argumentos[1]);
+                    if (leitorDeArquivos is null) { return null; }
                     return new Import(httpClientPet, leitorDeArquivos);
                 case "list":
                     var httpClientPetList = new HttpClientPet(new AdopetAPIClientFactory().CreateClient("adopet"));
                     return new List(httpClientPetList);
                 case "show":
-                    LeitorDeArquivo leitorDeArquivosShow = argumentos.Length == 2 ? new(argumentos[1]) : null;
+                    var leitorDeArquivosShow = LeitorDeArquivosFactory.CreatePetFrom(argumentos[1]);
+                    if (leitorDeArquivosShow is null) { return null; }
                     return new Show(leitorDeArquivosShow);
                 case "help":
                     var comandoASerExibido = argumentos.Length == 2 ? argumentos[1] : null;

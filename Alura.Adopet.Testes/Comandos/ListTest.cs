@@ -3,7 +3,7 @@ using Alura.Adopet.Console.Modelos;
 using Alura.Adopet.Console.Util;
 using Alura.Adopet.Testes.Builder;
 
-namespace Alura.Adopet.Testes
+namespace Alura.Adopet.Testes.Comandos
 {
     public class ListTest
     {
@@ -19,7 +19,7 @@ namespace Alura.Adopet.Testes
             var httpClientPet = HttpClientPetMockBuilder.GetMockList(listaDePet);
 
             //Act
-            var retorno = await new Alura.Adopet.Console.Comandos.List(httpClientPet.Object).ExecutarAsync();
+            var retorno = await new List(httpClientPet.Object).ExecutarAsync();
 
             //Assert
             var resultado = (SuccessWithPets)retorno.Successes[0];

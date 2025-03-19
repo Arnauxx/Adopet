@@ -1,4 +1,5 @@
 ﻿using Alura.Adopet.Console.Modelos;
+using Alura.Adopet.Console.Servicos.Arquivos;
 using Alura.Adopet.Console.Util;
 using Moq;
 using System;
@@ -7,12 +8,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Alura.Adopet.Testes
+namespace Alura.Adopet.Testes.Servicos
 {
-    public class LeitorDeArquivosTest : IDisposable
+    public class LeitorDeArquivosCSVTest : IDisposable
     {
         private string caminhoArquivo;
-        public LeitorDeArquivosTest()
+        public LeitorDeArquivosCSVTest()
         {
             string linha = "456b24f4-19e2-4423-845d-4a80e8854a41;Lima Limão;1";
             File.WriteAllText("lista.csv", linha);
@@ -24,7 +25,7 @@ namespace Alura.Adopet.Testes
         {
             //Arrange            
             //Act
-            var listaDePets = new LeitorDeArquivo(caminhoArquivo).RealizaLeituraDoArquivo()!;
+            var listaDePets = new LeitorDeArquivoCSV(caminhoArquivo).RealizaLeituraDoArquivo()!;
             //Assert
             Assert.NotNull(listaDePets);
             Assert.Single(listaDePets);
@@ -35,7 +36,7 @@ namespace Alura.Adopet.Testes
         {
             //Arrange
             //Act
-            var listaDePets = new LeitorDeArquivo(string.Empty).RealizaLeituraDoArquivo();
+            var listaDePets = new LeitorDeArquivoCSV(string.Empty).RealizaLeituraDoArquivo();
 
             //Assert
             Assert.Null(listaDePets);
@@ -46,7 +47,7 @@ namespace Alura.Adopet.Testes
         {
             //Arrange
             //Act
-            var listaDePets = new LeitorDeArquivo(null).RealizaLeituraDoArquivo();
+            var listaDePets = new LeitorDeArquivoCSV(null).RealizaLeituraDoArquivo();
 
             //Assert
             Assert.Null(listaDePets);

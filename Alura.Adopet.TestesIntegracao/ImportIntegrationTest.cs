@@ -1,14 +1,7 @@
 ﻿using Alura.Adopet.Console.Comandos;
 using Alura.Adopet.Console.Modelos;
 using Alura.Adopet.Console.Servicos;
-using Alura.Adopet.Console.Util;
-using Alura.Adopet.Testes.Builder;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Alura.Adopet.TestesIntegracao.Builder;
 
 namespace Alura.Adopet.Testes
 {

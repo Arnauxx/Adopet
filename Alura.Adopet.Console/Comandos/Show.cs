@@ -1,4 +1,4 @@
-﻿using Alura.Adopet.Console.Modelos;
+﻿using Alura.Adopet.Console.Servicos.Abstracoes;
 using Alura.Adopet.Console.Util;
 using FluentResults;
 
@@ -8,9 +8,9 @@ namespace Alura.Adopet.Console.Comandos
         documentacao: "adopet show <ARQUIVO> comando que exibe no terminal o conteúdo do arquivo importado.")]
     public class Show : IComando
     {
-        private readonly LeitorDeArquivo leitorDeArquivo;
+        private readonly ILeitorDeArquivos leitorDeArquivo;
 
-        public Show(LeitorDeArquivo leitorDeArquivo)
+        public Show(ILeitorDeArquivos leitorDeArquivo)
         {
             this.leitorDeArquivo = leitorDeArquivo;
         }

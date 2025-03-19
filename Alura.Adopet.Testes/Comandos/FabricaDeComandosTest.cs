@@ -1,6 +1,6 @@
 ﻿using Alura.Adopet.Console.Comandos;
 
-namespace Alura.Adopet.Testes
+namespace Alura.Adopet.Testes.Comandos
 {
     public class FabricaDeComandosTest
     {
@@ -10,7 +10,7 @@ namespace Alura.Adopet.Testes
             //Arrange
             string[] argumentos = { "import", "lista.csv" };
             //Act
-            var comando = FabricaDeComandos.CriarComando(argumentos);
+            var comando = ComandosFactory.CriarComando(argumentos);
             //Assert
             Assert.IsType<Import>(comando);
         }
@@ -21,7 +21,7 @@ namespace Alura.Adopet.Testes
             //Arrange
             string[] argumentos = { "invalid", "lista.csv" };
             //Act
-            var comando = FabricaDeComandos.CriarComando(argumentos);
+            var comando = ComandosFactory.CriarComando(argumentos);
             //Assert
             Assert.Null(comando);
         }
@@ -31,7 +31,7 @@ namespace Alura.Adopet.Testes
         {
             //Arrange
             //Act
-            var comando = FabricaDeComandos.CriarComando(null);
+            var comando = ComandosFactory.CriarComando(null);
             //Assert
             Assert.Null(comando);
         }
@@ -42,7 +42,7 @@ namespace Alura.Adopet.Testes
             //Arrange
             string[] argumentos = { };
             //Act
-            var comando = FabricaDeComandos.CriarComando(argumentos);
+            var comando = ComandosFactory.CriarComando(argumentos);
             //Assert
             Assert.Null(comando);
         }

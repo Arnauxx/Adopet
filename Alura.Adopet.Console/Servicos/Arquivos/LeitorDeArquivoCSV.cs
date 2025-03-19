@@ -5,24 +5,25 @@ using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 using Alura.Adopet.Console.Modelos;
+using Alura.Adopet.Console.Servicos.Abstracoes;
 using Alura.Adopet.Console.UI;
 using FluentResults;
 
-namespace Alura.Adopet.Console.Util
+namespace Alura.Adopet.Console.Servicos.Arquivos
 {
-    public class LeitorDeArquivo
+    public class LeitorDeArquivoCSV: ILeitorDeArquivos
     {
         private string caminhoDoArquivoASerLido;
-        public LeitorDeArquivo(string caminhoDoArquivoASerLido)
+        public LeitorDeArquivoCSV(string caminhoDoArquivoASerLido)
         {
             this.caminhoDoArquivoASerLido = caminhoDoArquivoASerLido;
         }
 
-        public virtual List<Pet> RealizaLeituraDoArquivo()
+        public virtual IEnumerable<Pet> RealizaLeituraDoArquivo()
         {
             try
             {
-                if (!String.IsNullOrEmpty(caminhoDoArquivoASerLido))
+                if (!string.IsNullOrEmpty(caminhoDoArquivoASerLido))
                 {
                     List<Pet> listaDePet = new List<Pet>();
                     using (StreamReader sr = new StreamReader(caminhoDoArquivoASerLido))

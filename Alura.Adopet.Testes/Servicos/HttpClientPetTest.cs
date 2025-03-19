@@ -4,7 +4,7 @@ using Moq.Protected;
 using System.Net;
 using System.Net.Sockets;
 
-namespace Alura.Adopet.Testes
+namespace Alura.Adopet.Testes.Servicos
 {
     public class HttpClientPetTest
     {

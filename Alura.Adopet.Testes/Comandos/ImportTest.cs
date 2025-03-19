@@ -4,7 +4,7 @@ using Alura.Adopet.Console.Util;
 using Alura.Adopet.Testes.Builder;
 using Moq;
 
-namespace Alura.Adopet.Testes
+namespace Alura.Adopet.Testes.Comandos
 {
     public class ImportTest
     {
@@ -22,7 +22,7 @@ namespace Alura.Adopet.Testes
             await import.ExecutarAsync();
 
             //Assert
-            httpClientPet.Verify(_=>_.CreatePetAsync(It.IsAny<Pet>()), Times.Never());
+            httpClientPet.Verify(_ => _.CreatePetAsync(It.IsAny<Pet>()), Times.Never());
         }
 
         [Fact]
@@ -31,7 +31,7 @@ namespace Alura.Adopet.Testes
             //Arrange
             List<Pet> listaDePets = new List<Pet>();
             var leitorDeArquivo = LeitorDeArquivosMockBuilder.GetMock(listaDePets);
-            leitorDeArquivo.Setup(_=>_.RealizaLeituraDoArquivo()).Throws<FileNotFoundException>();
+            leitorDeArquivo.Setup(_ => _.RealizaLeituraDoArquivo()).Throws<FileNotFoundException>();
             var httpClientPet = HttpClientPetMockBuilder.GetMock();
             string[] args = { "import", "lista.csv" };
             var import = new Import(httpClientPet.Object, leitorDeArquivo.Object);
