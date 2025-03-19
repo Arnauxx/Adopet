@@ -1,5 +1,4 @@
-﻿using Alura.Adopet.Console.Servicos;
-using Alura.Adopet.Console.Servicos.Abstracoes;
+﻿using Alura.Adopet.Console.Servicos.Abstracoes;
 using Alura.Adopet.Console.Util;
 using FluentResults;
 
@@ -10,10 +9,10 @@ namespace Alura.Adopet.Console.Comandos
     public class Import : IComando
     {
 
-        private readonly HttpClientPet clientPet;
+        private readonly IApiService clientPet;
         private readonly ILeitorDeArquivos leitorDeArquivo;
 
-        public Import(HttpClientPet clientPet, ILeitorDeArquivos leitorDeArquivo)
+        public Import(IApiService clientPet, ILeitorDeArquivos leitorDeArquivo)
         {
             this.clientPet = clientPet;
             this.leitorDeArquivo = leitorDeArquivo;

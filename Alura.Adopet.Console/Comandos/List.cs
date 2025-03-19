@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
-using System.Text;
-using System.Threading.Tasks;
-using Alura.Adopet.Console.Modelos;
-using Alura.Adopet.Console.Servicos;
+﻿using Alura.Adopet.Console.Modelos;
+using Alura.Adopet.Console.Servicos.Abstracoes;
 using Alura.Adopet.Console.Util;
 using FluentResults;
 
@@ -17,9 +10,9 @@ namespace Alura.Adopet.Console.Comandos
     public class List : IComando
     {
 
-        private readonly HttpClientPet clientPet;
+        private readonly IApiService clientPet;
 
-        public List(HttpClientPet clientPet)
+        public List(IApiService clientPet)
         {
             this.clientPet = clientPet;
         }
