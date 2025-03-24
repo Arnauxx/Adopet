@@ -18,5 +18,19 @@ namespace Alura.Adopet.Console.Servicos.Arquivos
                 default: return null;
             }
         }
+
+        public static ILeitorDeArquivos<Cliente>? CreateClienteFrom(string caminhoDoArquivo)
+        {
+            var extensao = Path.GetExtension(caminhoDoArquivo);
+
+            switch (extensao)
+            {
+                case ".csv":
+                    return new ClienteDoCsv(caminhoDoArquivo);
+                case ".json":
+                    return new LeitorDeArquivoJson<Cliente>(caminhoDoArquivo);
+                default: return null;
+            }
+        }
     }
 }
