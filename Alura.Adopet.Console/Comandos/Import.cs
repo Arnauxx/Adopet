@@ -11,9 +11,9 @@ namespace Alura.Adopet.Console.Comandos
     {
 
         private readonly IApiService<Pet> clientPet;
-        private readonly ILeitorDeArquivos leitorDeArquivo;
+        private readonly ILeitorDeArquivos<Pet> leitorDeArquivo;
 
-        public Import(IApiService<Pet> clientPet, ILeitorDeArquivos leitorDeArquivo)
+        public Import(IApiService<Pet> clientPet, ILeitorDeArquivos<Pet> leitorDeArquivo)
         {
             this.clientPet = clientPet;
             this.leitorDeArquivo = leitorDeArquivo;

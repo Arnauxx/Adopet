@@ -22,7 +22,7 @@ namespace Alura.Adopet.Testes.Comandos
             await import.ExecutarAsync();
 
             //Assert
-            httpClientPet.Verify(_ => _.CreatePetAsync(It.IsAny<Pet>()), Times.Never());
+            httpClientPet.Verify(_ => _.CreateAsync(It.IsAny<Pet>()), Times.Never());
         }
 
         [Fact]

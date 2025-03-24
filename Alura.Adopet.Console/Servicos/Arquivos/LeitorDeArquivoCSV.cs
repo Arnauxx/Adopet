@@ -11,7 +11,7 @@ using FluentResults;
 
 namespace Alura.Adopet.Console.Servicos.Arquivos
 {
-    public class LeitorDeArquivoCSV: ILeitorDeArquivos
+    public class LeitorDeArquivoCSV: ILeitorDeArquivos<Pet>
     {
         private string caminhoDoArquivoASerLido;
         public LeitorDeArquivoCSV(string caminhoDoArquivoASerLido)

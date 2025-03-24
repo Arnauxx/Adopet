@@ -1,4 +1,5 @@
 using Alura.Adopet.Console.Servicos;
+using Alura.Adopet.Console.Servicos.Http;
 using Moq;
 using Moq.Protected;
 using System.Net;
@@ -6,7 +7,7 @@ using System.Net.Sockets;
 
 namespace Alura.Adopet.Testes.Servicos
 {
-    public class HttpClientPetTest
+    public class PetServiceTest
     {
         [Fact]
         public async Task ListaPetsDeveRetornarUmaListaNaoVazia()
@@ -66,10 +67,10 @@ namespace Alura.Adopet.Testes.Servicos
                .ReturnsAsync(response);
             var httpClient = new Mock<HttpClient>(MockBehavior.Default, handlerMock.Object);
             httpClient.Object.BaseAddress = new Uri("http://localhost:5057");
-            var clientePet = new HttpClientPet(httpClient.Object);
+            var clientePet = new PetService(httpClient.Object);
 
             //Act
-            var lista = await clientePet.ListPetsAsync();
+            var lista = await clientePet.ListAsync();
 
             //Assert
             Assert.NotNull(lista);
@@ -91,10 +92,10 @@ namespace Alura.Adopet.Testes.Servicos
                .ThrowsAsync(new SocketException());
             var httpClient = new Mock<HttpClient>(MockBehavior.Default, handlerMock.Object);
             httpClient.Object.BaseAddress = new Uri("http://localhost:5057");
-            var clientePet = new HttpClientPet(httpClient.Object);
+            var clientePet = new PetService(httpClient.Object);
 
             //Act+Assert
-            await Assert.ThrowsAnyAsync<Exception>(() => clientePet.ListPetsAsync());
+            await Assert.ThrowsAnyAsync<Exception>(() => clientePet.ListAsync());
         }
     }
 }
