@@ -1,14 +1,11 @@
-﻿//LeitorDeArquivoJsonTest
-
-using Alura.Adopet.Console.Modelos;
-using Alura.Adopet.Console.Servicos.Arquivos;
+﻿using Alura.Adopet.Console.Servicos.Arquivos;
 
 namespace Alura.Adopet.Testes.Servicos;
-
-public class LeitorDeArquivoJsonTest : IDisposable
+public class ClienteDoJsonTest : IDisposable
 {
-    private string caminhoArquivo;
-    public LeitorDeArquivoJsonTest()
+    private readonly string caminhoArquivo;
+
+    public ClienteDoJsonTest()
     {
         //Setup
         string conteudo = @"
@@ -38,19 +35,18 @@ public class LeitorDeArquivoJsonTest : IDisposable
     }
 
     [Fact]
-    public void QuandoArquivoExistenteDeveRetornarUmaListaDePets()
+    public void QuandoArquivoExistenteDeveRetornarUmaListaDeClientes()
     {
         //Arrange            
         //Act
-        var listaDePets = new LeitorDeArquivoJson<Pet>(caminhoArquivo).RealizaLeituraDoArquivo()!;
+        var lista = new ClienteDoJson(caminhoArquivo).RealizaLeituraDoArquivo()!;
         //Assert
-        Assert.NotNull(listaDePets);
-        Assert.IsType<List<Pet>?>(listaDePets);
+        Assert.NotNull(lista);
+        Assert.Equal(3, lista.Count());
     }
 
     public void Dispose()
     {
-        //ClearDown
         File.Delete(caminhoArquivo);
     }
 }

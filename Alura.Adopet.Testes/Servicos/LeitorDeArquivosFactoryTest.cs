@@ -1,51 +1,46 @@
-﻿using Alura.Adopet.Console.Servicos.Arquivos;
+﻿using Alura.Adopet.Console.Modelos;
+using Alura.Adopet.Console.Servicos.Arquivos;
 
-namespace Alura.Adopet.Testes.Servicos
+namespace Alura.Adopet.Testes.Servicos;
+
+public class LeitorDeArquivoFactoryTest
 {
-    public class LeitorDeArquivosFactoryTest
+    [Fact]
+    public void QuantoExtensaoForCsvDeveRetornarTipoLeitorDeArquivoCsv()
     {
-        private string caminhoArquivo;
+        // arrange
+        string caminhoArquivo = "pets.csv";
 
-        public LeitorDeArquivosFactoryTest()
-        {
-        }
+        // act
+        var leitor = LeitorDeArquivosFactory.CreatePetFrom(caminhoArquivo);
 
-        [Fact]
-        public void QuantoExtensaoNaoSuportadaDeveRetornarNulo()
-        {
-            //Arrange
-            caminhoArquivo = Path.GetFullPath("claro.pdf");
-            //Act
-            var retorno = LeitorDeArquivosFactory.CreatePetFrom(caminhoArquivo);
+        // assert
+        Assert.IsType<PetsDoCsv>(leitor);
+    }
 
-            //Assert
-            Assert.Null(retorno);
-        }
+    [Fact]
+    public void QuantoExtensaoForJsonDeveRetornarTipoLeitorDeArquivoJson()
+    {
+        // arrange
+        string caminhoArquivo = "pets.json";
 
-        [Fact]
-        public void QuandoExtensaoForCsvDeveRetornarTipoLeitorDeArquivoCsv()
-        {
-            //Arrange
-            caminhoArquivo = Path.GetFullPath("lista.csv");
+        // act
+        var leitor = LeitorDeArquivosFactory.CreatePetFrom(caminhoArquivo);
 
-            //Act
-            var retorno = LeitorDeArquivosFactory.CreatePetFrom(caminhoArquivo);
+        // assert
+        Assert.IsType<LeitorDeArquivoJson<Pet>>(leitor);
+    }
 
-            //Assert
-            Assert.IsType<LeitorDeArquivoCSV>(retorno);
-        }
+    [Fact]
+    public void QuantoExtensaoNaoSuportadaDeveRetornarNulo()
+    {
+        // arrange
+        string caminhoArquivo = "pets.xsl";
 
-        [Fact]
-        public void QuandoExtensaoForJsonDeveRetornarTipoLeitorDeArquivoJson()
-        {
-            //Arrange
-            caminhoArquivo = Path.GetFullPath("pets.json");
+        // act
+        var leitor = LeitorDeArquivosFactory.CreatePetFrom(caminhoArquivo);
 
-            //Act
-            var retorno = LeitorDeArquivosFactory.CreatePetFrom(caminhoArquivo);
-
-            //Assert
-            Assert.IsType<LeitorDeArquivoJson>(retorno);
-        }
+        // assert
+        Assert.Null(leitor);
     }
 }

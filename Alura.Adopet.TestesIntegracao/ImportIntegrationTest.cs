@@ -1,6 +1,7 @@
 ﻿using Alura.Adopet.Console.Comandos;
 using Alura.Adopet.Console.Modelos;
 using Alura.Adopet.Console.Servicos;
+using Alura.Adopet.Console.Servicos.Http;
 using Alura.Adopet.TestesIntegracao.Builder;
 
 namespace Alura.Adopet.Testes
@@ -16,13 +17,13 @@ namespace Alura.Adopet.Testes
                 "Lima", TipoPet.Cachorro); //"456b24f4-19e2-4423-845d-4a80e8854a41; Lima Limão;1";
             listaDePets.Add(pet);
             var leitorDeArquivo = LeitorDeArquivosMockBuilder.GetMock(listaDePets);
-            var httpClientPet = new HttpClientPet(new AdopetAPIClientFactory().CreateClient("adopet"));
+            var httpClientPet = new PetService(new AdopetAPIClientFactory().CreateClient("adopet"));
             var import = new Import(httpClientPet, leitorDeArquivo.Object);
             string[] args = { "import", "lista.csv" };
 
             //Act
             await import.ExecutarAsync();
-            var listaPet = await httpClientPet.ListPetsAsync();
+            var listaPet = await httpClientPet.ListAsync();
 
             //Assert
             Assert.NotNull(listaPet);

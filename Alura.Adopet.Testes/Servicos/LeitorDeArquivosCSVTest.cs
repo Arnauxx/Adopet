@@ -1,61 +1,59 @@
-﻿using Alura.Adopet.Console.Modelos;
+﻿//LeitorDeArqvivoCsvTest
+
+using Alura.Adopet.Console.Modelos;
 using Alura.Adopet.Console.Servicos.Arquivos;
-using Alura.Adopet.Console.Util;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Alura.Adopet.Testes.Servicos
+namespace Alura.Adopet.Testes.Servicos;
+
+public class LeitorDeArquivoCsvTest : IDisposable
 {
-    public class LeitorDeArquivosCSVTest : IDisposable
+    private string caminhoArquivo;
+    public LeitorDeArquivoCsvTest()
     {
-        private string caminhoArquivo;
-        public LeitorDeArquivosCSVTest()
-        {
-            string linha = "456b24f4-19e2-4423-845d-4a80e8854a41;Lima Limão;1";
-            File.WriteAllText("lista.csv", linha);
-            caminhoArquivo = Path.GetFullPath("lista.csv");
-        }
+        //Setup
+        string linha = "456b24f4-19e2-4423-845d-4a80e8854a41;Lima Limão;1";
 
-        [Fact]
-        public void QuandoArquivoExistenteDeveRetornarUmaListaDePets()
-        {
-            //Arrange            
-            //Act
-            var listaDePets = new LeitorDeArquivoCSV(caminhoArquivo).RealizaLeituraDoArquivo()!;
-            //Assert
-            Assert.NotNull(listaDePets);
-            Assert.Single(listaDePets);
-            Assert.IsType<List<Pet>?>(listaDePets);
-        }
-        [Fact]
-        public void QuandoArquivoNaoExistenteDeveRetornarNulo()
-        {
-            //Arrange
-            //Act
-            var listaDePets = new LeitorDeArquivoCSV(string.Empty).RealizaLeituraDoArquivo();
+        string nomeRandomico = $"{Guid.NewGuid()}.csv";
 
-            //Assert
-            Assert.Null(listaDePets);
-        }
+        File.WriteAllText(nomeRandomico, linha);
+        caminhoArquivo = Path.GetFullPath(nomeRandomico);
+    }
 
-        [Fact]
-        public void QuandoArquivoForNuloDeveRetornarNulo()
-        {
-            //Arrange
-            //Act
-            var listaDePets = new LeitorDeArquivoCSV(null).RealizaLeituraDoArquivo();
+    [Fact]
+    public void QuandoArquivoExistenteDeveRetornarUmaListaDePets()
+    {
+        //Arrange            
+        //Act
+        var listaDePets = new PetsDoCsv(caminhoArquivo).RealizaLeituraDoArquivo()!;
+        //Assert
+        Assert.NotNull(listaDePets);
+        Assert.Single(listaDePets);
+        Assert.IsType<List<Pet>?>(listaDePets);
+    }
 
-            //Assert
-            Assert.Null(listaDePets);
-        }
+    [Fact]
+    public void QuandoArquivoNaoExistenteDeveRetornarNulo()
+    {
+        //Arrange            
+        //Act
+        var listaDePets = new PetsDoCsv("").RealizaLeituraDoArquivo();
+        //Assert
+        Assert.Null(listaDePets);
+    }
 
-        public void Dispose()
-        {
-            File.Delete(caminhoArquivo);
-        }
+    [Fact]
+    public void QuandoArquivoForNuloDeveRetornarNulo()
+    {
+        //Arrange            
+        //Act
+        var listaDePets = new PetsDoCsv(null).RealizaLeituraDoArquivo();
+        //Assert
+        Assert.Null(listaDePets);
+    }
+
+    public void Dispose()
+    {
+        //ClearDown
+        File.Delete(caminhoArquivo);
     }
 }

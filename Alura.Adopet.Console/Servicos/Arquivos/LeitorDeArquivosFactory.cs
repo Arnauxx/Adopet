@@ -12,9 +12,9 @@ namespace Alura.Adopet.Console.Servicos.Arquivos
             switch (extensao)
             {
                 case ".csv":
-                    return new LeitorDeArquivoCSV(caminhoDoArquivo);
+                    return new PetsDoCsv(caminhoDoArquivo);
                 case ".json":
-                    return new LeitorDeArquivoJson(caminhoDoArquivo);
+                    return new LeitorDeArquivoJson<Pet>(caminhoDoArquivo);
                 default: return null;
             }
         }

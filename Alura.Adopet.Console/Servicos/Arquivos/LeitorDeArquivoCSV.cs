@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
-using Alura.Adopet.Console.Modelos;
+﻿using Alura.Adopet.Console.Modelos;
 using Alura.Adopet.Console.Servicos.Abstracoes;
 using Alura.Adopet.Console.UI;
 using FluentResults;
 
 namespace Alura.Adopet.Console.Servicos.Arquivos
 {
-    public class LeitorDeArquivoCSV: ILeitorDeArquivos<Pet>
+    public abstract class LeitorDeArquivoCSV<T>: ILeitorDeArquivos<T>
     {
         private string caminhoDoArquivoASerLido;
         public LeitorDeArquivoCSV(string caminhoDoArquivoASerLido)
@@ -19,32 +13,24 @@ namespace Alura.Adopet.Console.Servicos.Arquivos
             this.caminhoDoArquivoASerLido = caminhoDoArquivoASerLido;
         }
 
-        public virtual IEnumerable<Pet> RealizaLeituraDoArquivo()
+        public virtual IEnumerable<T> RealizaLeituraDoArquivo()
         {
             try
             {
-                if (!string.IsNullOrEmpty(caminhoDoArquivoASerLido))
-                {
-                    List<Pet> listaDePet = new List<Pet>();
+                if (string.IsNullOrEmpty(caminhoDoArquivoASerLido)) return null;
+                
+                    List<T> lista = new List<T>();
                     using (StreamReader sr = new StreamReader(caminhoDoArquivoASerLido))
                         while (!sr.EndOfStream)
                         {
-                            // separa linha usando ponto e vírgula
-                            string[] propriedades = sr.ReadLine().Split(';');
-                            // cria objeto Pet a partir da separação
-                            Pet pet = new Pet(Guid.Parse(propriedades[0]),
-                              propriedades[1],
-                              int.Parse(propriedades[2]) == 1 ? TipoPet.Gato : TipoPet.Cachorro
-                             );
-                            listaDePet.Add(pet);
+                            string? linha = sr.ReadLine();
+                            if(linha is not null)
+                            {
+                                var objeto = CriarDaLinhaCsv(linha);
+                                lista.Add(objeto);
+                            }
                         }
-                    return listaDePet;
-
-                }
-                else
-                {
-                    return null;
-                }
+                    return lista;
             }
             catch (Exception ex)
             {
@@ -52,5 +38,7 @@ namespace Alura.Adopet.Console.Servicos.Arquivos
                 return null;
             }
         }
+
+        public abstract T CriarDaLinhaCsv(string linha);
     }
 }
