@@ -1,5 +1,5 @@
 ﻿using Alura.Adopet.Console.Modelos;
-using Alura.Adopet.Console.Servicos;
+using Alura.Adopet.Console.Servicos.Http;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -12,16 +12,16 @@ namespace Alura.Adopet.Testes.Builder
     internal static class HttpClientPetMockBuilder
     {
 
-        public static Mock<HttpClientPet> GetMock()
+        public static Mock<PetService> GetMock()
         {
-            return new Mock<HttpClientPet>(MockBehavior.Default, It.IsAny<HttpClient>());
+            return new Mock<PetService>(MockBehavior.Default, It.IsAny<HttpClient>());
         }
 
-        public static Mock<HttpClientPet> GetMockList(List<Pet> lista)
+        public static Mock<PetService> GetMockList(List<Pet> lista)
         {
-            var httpClientPet = new Mock<HttpClientPet>(MockBehavior.Default,
+            var httpClientPet = new Mock<PetService>(MockBehavior.Default,
                 It.IsAny<HttpClient>());
-            httpClientPet.Setup(_ => _.ListPetsAsync())
+            httpClientPet.Setup(_ => _.ListAsync())
                 .ReturnsAsync(lista);
             return httpClientPet;
         }

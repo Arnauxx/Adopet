@@ -1,5 +1,6 @@
 ﻿using Alura.Adopet.Console.Servicos;
 using Alura.Adopet.Console.Servicos.Arquivos;
+using Alura.Adopet.Console.Servicos.Http;
 
 namespace Alura.Adopet.Console.Comandos
 {
@@ -12,12 +13,12 @@ namespace Alura.Adopet.Console.Comandos
             switch (comando.ToLower())
             {
                 case "import":
-                    var httpClientPet = new HttpClientPet(new AdopetAPIClientFactory().CreateClient("adopet"));
+                    var httpClientPet = new PetService(new AdopetAPIClientFactory().CreateClient("adopet"));
                     var leitorDeArquivos = LeitorDeArquivosFactory.CreatePetFrom(argumentos[1]);
                     if (leitorDeArquivos is null) { return null; }
                     return new Import(httpClientPet, leitorDeArquivos);
                 case "list":
-                    var httpClientPetList = new HttpClientPet(new AdopetAPIClientFactory().CreateClient("adopet"));
+                    var httpClientPetList = new PetService(new AdopetAPIClientFactory().CreateClient("adopet"));
                     return new List(httpClientPetList);
                 case "show":
                     var leitorDeArquivosShow = LeitorDeArquivosFactory.CreatePetFrom(argumentos[1]);

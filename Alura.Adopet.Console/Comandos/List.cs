@@ -10,9 +10,9 @@ namespace Alura.Adopet.Console.Comandos
     public class List : IComando
     {
 
-        private readonly IApiService clientPet;
+        private readonly IApiService<Pet> clientPet;
 
-        public List(IApiService clientPet)
+        public List(IApiService<Pet> clientPet)
         {
             this.clientPet = clientPet;
         }
@@ -32,7 +32,7 @@ namespace Alura.Adopet.Console.Comandos
         {
             try
             {
-                IEnumerable<Pet>? pets = await clientPet.ListPetsAsync();
+                IEnumerable<Pet>? pets = await clientPet.ListAsync();
                 if (pets is not null)
                 {
                     return Result.Ok().WithSuccess(new SuccessWithPets(pets, "Lista de pets consultada com sucesso!"));

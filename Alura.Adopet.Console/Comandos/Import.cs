@@ -1,4 +1,5 @@
-﻿using Alura.Adopet.Console.Servicos.Abstracoes;
+﻿using Alura.Adopet.Console.Modelos;
+using Alura.Adopet.Console.Servicos.Abstracoes;
 using Alura.Adopet.Console.Util;
 using FluentResults;
 
@@ -9,10 +10,10 @@ namespace Alura.Adopet.Console.Comandos
     public class Import : IComando
     {
 
-        private readonly IApiService clientPet;
+        private readonly IApiService<Pet> clientPet;
         private readonly ILeitorDeArquivos leitorDeArquivo;
 
-        public Import(IApiService clientPet, ILeitorDeArquivos leitorDeArquivo)
+        public Import(IApiService<Pet> clientPet, ILeitorDeArquivos leitorDeArquivo)
         {
             this.clientPet = clientPet;
             this.leitorDeArquivo = leitorDeArquivo;
@@ -30,7 +31,7 @@ namespace Alura.Adopet.Console.Comandos
                 var listaDePet = leitorDeArquivo.RealizaLeituraDoArquivo();
                 foreach (var pet in listaDePet)
                 {
-                    await clientPet.CreatePetAsync(pet);
+                    await clientPet.CreateAsync(pet);
                 }
                 return Result.Ok().WithSuccess(new SuccessWithPets(listaDePet, "Importação realizada com sucesso!"));
             }

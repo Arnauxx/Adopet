@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions;
 
-namespace Alura.Adopet.Console.Servicos
+namespace Alura.Adopet.Console.Servicos.Http
 {
     public class AdopetAPIClientFactory : IHttpClientFactory
     {
