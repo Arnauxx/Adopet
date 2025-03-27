@@ -1,6 +1,9 @@
-﻿using Alura.Adopet.Console.Results;
+﻿using Alura.Adopet.Console.Modelos;
+using Alura.Adopet.Console.Results;
 using Alura.Adopet.Console.Util;
 using FluentResults;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace Alura.Adopet.Console.UI
 {
@@ -67,7 +70,7 @@ namespace Alura.Adopet.Console.UI
         {
             foreach (var cliente in sucess.Data)
             {
-                System.Console.WriteLine(cliente);
+                    System.Console.WriteLine(cliente);
             }
             System.Console.WriteLine(sucess.Message);
 
