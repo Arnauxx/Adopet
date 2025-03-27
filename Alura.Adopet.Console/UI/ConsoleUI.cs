@@ -34,6 +34,9 @@ namespace Alura.Adopet.Console.UI
                 case SuccessWithPets sucess:
                     ExibirPets(sucess);
                     break;
+                case SuccessWithClientes sucess:
+                    ExibirClientes(sucess);
+                    break;
                 case SuccessWithDocs docs:
                     ExibeDocumentacao(docs); 
                     break;
@@ -55,6 +58,16 @@ namespace Alura.Adopet.Console.UI
             foreach (var pet in sucess.Data)
             {
                 System.Console.WriteLine(pet);
+            }
+            System.Console.WriteLine(sucess.Message);
+
+        }
+
+        private static void ExibirClientes(SuccessWithClientes sucess)
+        {
+            foreach (var cliente in sucess.Data)
+            {
+                System.Console.WriteLine(cliente);
             }
             System.Console.WriteLine(sucess.Message);
 
