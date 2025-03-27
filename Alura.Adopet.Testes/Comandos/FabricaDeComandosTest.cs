@@ -57,5 +57,24 @@ namespace Alura.Adopet.Testes.Comandos
             //Assert
             Assert.IsType<List>(comando);
         }
+
+        [Theory]
+        [InlineData("import", "Import")]
+        [InlineData("help", "Help")]
+        [InlineData("show", "Show")]
+        [InlineData("list", "List")]
+        [InlineData("import-clientes", "ImportClientes")]
+        public async Task DadoParametroValidoDeveRetornarObjetoNaoNulo(string instrucao, string nomeTipo)
+        {
+            //Arrange
+            string[] args = new[] { instrucao, "lista.csv" };
+
+            //Act
+            var comando = ComandosFactory.CriarComando(args);
+
+            //Assert
+            Assert.NotNull(comando);
+            Assert.Equal(nomeTipo, comando.GetType().Name);
+        }
     }
 }
