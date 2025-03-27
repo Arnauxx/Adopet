@@ -46,5 +46,16 @@ namespace Alura.Adopet.Testes.Comandos
             //Assert
             Assert.Null(comando);
         }
+
+        [Fact]
+        public void DadoUmParametroDeveRetornarUmTipoList()
+        {
+            //Arrange
+            string[] argumentos = { "list", "lista.csv" };
+            //Act
+            var comando = ComandosFactory.CriarComando(argumentos);
+            //Assert
+            Assert.IsType<List>(comando);
+        }
     }
 }
