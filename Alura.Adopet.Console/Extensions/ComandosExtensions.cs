@@ -13,5 +13,15 @@ namespace Alura.Adopet.Console.Extensions
                 .FirstOrDefault(t => t.GetCustomAttributes<DocComando>()
                 .Any(d => d.Instrucao.Equals(instrucao))); //recuperar apenas aquele que atende à instrução "instrucao"
         }
+
+        public static IEnumerable<IComandoFactory?> GetFabricas(this Assembly assembly)
+        {
+            return assembly
+                .GetTypes()
+                // filtre os tipos concretos que implementa IComandoFactory
+                .Where(t => !t.IsInterface && t.IsAssignableTo(typeof(IComandoFactory)))
+                // criar instancias de cada fábrica (não é o ideal)
+                .Select(f => Activator.CreateInstance(f) as IComandoFactory);
+        }
     }
 }
