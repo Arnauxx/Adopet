@@ -1,5 +1,5 @@
 ﻿using Alura.Adopet.API.Dados.Context;
-using Alura.Adopet.API.Dominio.Entity;
+using Alura.Adopet.API.Dominio;
 
 namespace Alura.Adopet.API.Service
 {
@@ -23,8 +23,7 @@ namespace Alura.Adopet.API.Service
             var pet = new Pet()
             {
                 Nome = "Sábio",
-                Tipo = Util.TipoPet.Gato,
-                Proprietario = proprietario,
+                Tipo = TipoPet.Gato,                
             };
             _context.Add(pet);
             _context.SaveChanges();

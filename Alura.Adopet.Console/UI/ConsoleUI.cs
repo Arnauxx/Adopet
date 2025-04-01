@@ -68,6 +68,9 @@ namespace Alura.Adopet.Console.UI
 
         private static void ExibirClientes(SuccessWithClientes sucess)
         {
+            if (sucess == null) return;
+            if (sucess.Data == null) return;
+
             foreach (var cliente in sucess.Data)
             {
                     System.Console.WriteLine(cliente);
