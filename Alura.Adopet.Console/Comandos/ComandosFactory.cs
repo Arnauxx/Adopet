@@ -1,6 +1,8 @@
-﻿using Alura.Adopet.Console.Servicos;
+﻿using Alura.Adopet.Console.Extensions;
+using Alura.Adopet.Console.Servicos;
 using Alura.Adopet.Console.Servicos.Arquivos;
 using Alura.Adopet.Console.Servicos.Http;
+using System.Reflection;
 
 namespace Alura.Adopet.Console.Comandos
 {
@@ -10,6 +12,7 @@ namespace Alura.Adopet.Console.Comandos
         {
             if ((argumentos is null) || (argumentos.Length == 0)) return null;
             var comando = argumentos[0];
+            Type? tipoRetornado = Assembly.GetExecutingAssembly().GetTipoComando(comando);
             switch (comando.ToLower())
             {
                 case "import":
