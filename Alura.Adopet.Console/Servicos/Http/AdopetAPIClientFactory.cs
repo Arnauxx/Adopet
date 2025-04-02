@@ -10,7 +10,13 @@ namespace Alura.Adopet.Console.Servicos.Http
 {
     public class AdopetAPIClientFactory : IHttpClientFactory
     {
-        private string url = "http://localhost:5057";
+        private string url;
+
+        public AdopetAPIClientFactory(string url)
+        {
+            this.url = url;
+        }
+
         public HttpClient CreateClient(string name)
         {
             HttpClient _client = new HttpClient();
