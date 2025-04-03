@@ -7,9 +7,9 @@ using System.Net.Mail;
 
 namespace Alura.Adopet.Console.Servicos.Mail
 {
-    public class EnvioDeEmail
+    public static class EnvioDeEmail
     {
-        private IMailService CriarMailService()
+        private static IMailService CriarMailService()
         {
             MailSettings settings = Configurations.MailSetting;
             SmtpClient smtp = new()
@@ -17,13 +17,15 @@ namespace Alura.Adopet.Console.Servicos.Mail
                 Host = settings.Servidor,
                 Port = settings.Porta,
                 Credentials = new NetworkCredential(settings.Usuario, settings.Senha),
-                EnableSsl = true,
+                EnableSsl = false,
                 UseDefaultCredentials = false
             };
+            smtp.SendCompleted += (s, e) => smtp.Dispose();
+            smtp.EnableSsl = true;
             return new SmtpClientMailService(smtp);
         }
 
-        public void Disparar(Result resultado)
+        public static void Disparar(Result resultado)
         {
             ISuccess? success = resultado.Successes.FirstOrDefault();
             if (success is null) return;
